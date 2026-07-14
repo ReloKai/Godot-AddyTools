@@ -29,6 +29,7 @@ func getLargestSquareFromInt(input:int) -> Vector2i:
 	var M : int = 0
 	while bool(input % N):
 		N -= 1
+	@warning_ignore("integer_division")
 	M = floor(input / N)
 	return Vector2i(N,M)
 
@@ -222,7 +223,7 @@ func setCollisionLayerAndMaskValues(collision:CollisionObject3D,layers:Array[int
 		collision.set_collision_mask_value(l,true)
 
 ## Check if an object is freed or is going to be freed
-func isFreed(instance:Object) -> bool:
+func isFreed(instance:Variant) -> bool:
 	if is_instance_valid(instance):
 		if !instance.is_queued_for_deletion():
 			return false
