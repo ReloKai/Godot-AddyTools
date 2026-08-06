@@ -8,4 +8,4 @@ Use AddyTools.gd as an AutoLoad to use these tools in your project.
 
 Please feel free to fork and modify as you wish!
 
-Last Modified: 10th July 2026
+Last Modified: 6th August 2026
