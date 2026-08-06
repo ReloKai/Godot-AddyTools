@@ -2,7 +2,7 @@
 ## A collection of random functions that don't already exist in Godot.
 ## I personally use these in all of my projects!
 ## Use this script as an AutoLoad to use these tools in your project.
-
+@tool
 extends Node
 class_name AddyTools_class
 
@@ -67,70 +67,65 @@ func averageVector3s(inputV3s:Array[Vector3]) -> Vector3:
 	output /= inputV3s.size()
 	return output
 
+func randomDistance(startingPos:float,maxDistance:float) -> float:
+	return randf_range(startingPos - maxDistance,startingPos + maxDistance)
+
+func randomDistanceWithMin(minDistance:float,maxDistance:float) -> float:
+	return randf_range(minDistance,maxDistance) * [-1.0,1.0].pick_random()
+
 ## Return a random position (Vector2) within a max distance from the starting position
 func randomPositionVector2(maxDistance:float,startingPos:Vector2 = Vector2.ZERO,zeroY:bool = true) -> Vector2:
 	if zeroY:
 		return Vector2(
-		randf_range(startingPos.x - maxDistance,startingPos.x + maxDistance),
+		randomDistance(startingPos.x,maxDistance),
 		0.0)
 	else:
 		return Vector2(
-		randf_range(startingPos.x - maxDistance,startingPos.x + maxDistance),
-		randf_range(startingPos.y - maxDistance,startingPos.y + maxDistance))
+		randomDistance(startingPos.x,maxDistance),
+		randomDistance(startingPos.y,maxDistance))
 
 ## Return a random position (Vector2) within a range from a starting position
 func randomPositionWithMinVector2(maxDistance:float,minDistance:float,startingPos:Vector2 = Vector2.ZERO,zeroY:bool = true) -> Vector2:
 	if zeroY:
-		return Vector2(
-		randf_range((startingPos.x - minDistance) - maxDistance,
-		(startingPos.x + minDistance) + maxDistance),
+		return startingPos + Vector2(
+		randomDistanceWithMin(minDistance,maxDistance),
 		0.0)
 	else:
-		return Vector2(
-		randf_range((startingPos.x - minDistance) - maxDistance,
-		(startingPos.x + minDistance) + maxDistance),
-		randf_range((startingPos.y - minDistance) - maxDistance,
-		(startingPos.y + minDistance) + maxDistance))
+		return startingPos + Vector2(
+		randomDistanceWithMin(minDistance,maxDistance),
+		randomDistanceWithMin(minDistance,maxDistance))
 
 
 ## Return a random position (Vector3) within a max distance from the starting position
 func randomPositionVector3(maxDistance:float,startingPos:Vector3 = Vector3.ZERO,zeroY:bool = true) -> Vector3:
 	if zeroY:
 		return Vector3(
-		randf_range(startingPos.x - maxDistance,startingPos.x + maxDistance),
+		randomDistance(startingPos.x,maxDistance),
 		0.0,
-		randf_range(startingPos.z - maxDistance,startingPos.z + maxDistance))
+		randomDistance(startingPos.z,maxDistance))
 	else:
 		return Vector3(
-		randf_range(startingPos.x - maxDistance,startingPos.x + maxDistance),
-		randf_range(startingPos.y - maxDistance,startingPos.y + maxDistance),
-		randf_range(startingPos.z - maxDistance,startingPos.z + maxDistance))
+		randomDistance(startingPos.x,maxDistance),
+		randomDistance(startingPos.y,maxDistance),
+		randomDistance(startingPos.z,maxDistance))
 
 ## Return a random position (Vector3) within a range from a starting position
 func randomPositionWithMinVector3(maxDistance:float,minDistance:float,startingPos:Vector3 = Vector3.ZERO,zeroY:bool = true) -> Vector3:
 	if zeroY:
-		return Vector3(
-		randf_range((startingPos.x - minDistance) - maxDistance,
-		(startingPos.x + minDistance) + maxDistance),
+		return startingPos + Vector3(
+		randomDistanceWithMin(minDistance,maxDistance),
 		0.0,
-		randf_range((startingPos.z - minDistance) - maxDistance,
-		(startingPos.z + minDistance) + maxDistance))
+		randomDistanceWithMin(minDistance,maxDistance))
 	else:
-		return Vector3(
-		randf_range((startingPos.x - minDistance) - maxDistance,
-		(startingPos.x + minDistance) + maxDistance),
-		randf_range((startingPos.y - minDistance) - maxDistance,
-		(startingPos.y + minDistance) + maxDistance),
-		randf_range((startingPos.z - minDistance) - maxDistance,
-		(startingPos.z + minDistance) + maxDistance))
+		return startingPos + Vector3(
+		randomDistanceWithMin(minDistance,maxDistance),
+		randomDistanceWithMin(minDistance,maxDistance),
+		randomDistanceWithMin(minDistance,maxDistance))
 
 ## Returns a randomly rotated Vector3.
 ## If maxRot == 0.0, will return any random rotation
-func randomRotationVector3(maxRot:float = 0.0, YOnly:bool = false) -> Vector3:
-	if YOnly:
-		return Vector3(0.0,randomRotation(maxRot),0.0)
-	else:
-		return Vector3(randomRotation(maxRot), randomRotation(maxRot), randomRotation(maxRot))
+func randomRotationVector3(maxRot:float = 0.0) -> Vector3:
+	return Vector3(randomRotation(maxRot), randomRotation(maxRot), randomRotation(maxRot))
 
 #endregion
 
