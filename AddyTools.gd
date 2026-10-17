@@ -67,6 +67,12 @@ func averageVector3s(inputV3s:Array[Vector3]) -> Vector3:
 	output /= inputV3s.size()
 	return output
 
+func randomDistance(startingPos:float,maxDistance:float) -> float:
+	return randf_range(startingPos - maxDistance,startingPos + maxDistance)
+
+func randomDistanceWithMin(minDistance:float,maxDistance:float) -> float:
+	return randf_range(minDistance,maxDistance) * [-1.0,1.0].pick_random()
+
 ## Return a random position (Vector2) within a max distance from the starting position
 func randomPositionVector2(maxDistance:float,startingPos:Vector2 = Vector2.ZERO,zeroY:bool = true) -> Vector2:
 	if zeroY:
