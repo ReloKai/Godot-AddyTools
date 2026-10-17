@@ -127,6 +127,38 @@ func randomPositionWithMinVector3(maxDistance:float,minDistance:float,startingPo
 func randomRotationVector3(maxRot:float = 0.0) -> Vector3:
 	return Vector3(randomRotation(maxRot), randomRotation(maxRot), randomRotation(maxRot))
 
+func get_quadratic_bezier_top(start:Vector3,top:float,end:Vector3) -> Vector3:
+	var midpoint : Vector3 = (start+end)/2
+	var topLoc : Vector3 = Vector3(midpoint.x,top,midpoint.z)
+	return topLoc
+
+func quadratic_bezier(start:Vector3,top:float,end:Vector3,t:float):
+	var topLoc :Vector3 = get_quadratic_bezier_top(start,top,end)
+	var q0 = start.lerp(topLoc, t)
+	var q1 = topLoc.lerp(end, t)
+	var r = q0.lerp(q1, t)
+	return r
+
+## In returned array, 0 == topStart, and 1 == topEnd
+func get_cubic_bezier_tops(start:Vector3,top:float,end:Vector3) -> Array[Vector3]:
+	var topStart : Vector3 = Vector3(start.x,top,start.z)
+	var topEnd : Vector3 = Vector3(end.x,top,end.z)
+	return [topStart,topEnd]
+
+func cubic_bezier(start:Vector3,top:float,end:Vector3,t:float):
+	var tops : Array[Vector3] = get_cubic_bezier_tops(start,top,end)
+	var topStart : Vector3 = tops[0]
+	var topEnd : Vector3 = tops[1]
+	var q0 = start.lerp(topStart, t)
+	var q1 = topStart.lerp(topEnd, t)
+	var q2 = topEnd.lerp(end, t)
+
+	var r0 = q0.lerp(q1, t)
+	var r1 = q1.lerp(q2, t)
+
+	var s = r0.lerp(r1, t)
+	return s
+
 #endregion
 
 #region Transform and Basis Tools
